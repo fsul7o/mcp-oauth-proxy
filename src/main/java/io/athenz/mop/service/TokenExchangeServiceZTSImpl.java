@@ -74,6 +74,7 @@ public class TokenExchangeServiceZTSImpl implements TokenExchangeService {
                     .newBuilder(OAuthTokenRequestBuilder.OAUTH_GRANT_TOKEN_EXCHANGE)
                     .requestedTokenType(OAuthTokenRequestBuilder.OAUTH_TOKEN_TYPE_JAG)
                     .audience(tokenExchangeDO.remoteServer())
+                    .domainName(tokenExchangeDO.namespace())
                     .roleNames(tokenExchangeDO.scopes())
                     .subjectTokenType(OAuthTokenRequestBuilder.OAUTH_TOKEN_TYPE_ID)
                     .subjectToken(tokenExchangeDO.tokenWrapper().idToken())
@@ -108,6 +109,7 @@ public class TokenExchangeServiceZTSImpl implements TokenExchangeService {
                     .assertion(tokenExchangeDO.tokenWrapper().idToken())
                     .clientAssertionType(OAuthTokenRequestBuilder.OAUTH_ASSERTION_TYPE_JWT_BEARER)
                     .audience(tokenExchangeDO.namespace())
+                    .domainName(tokenExchangeDO.namespace())
                     .roleNames(tokenExchangeDO.scopes())
                     .openIdIssuer(true);
 

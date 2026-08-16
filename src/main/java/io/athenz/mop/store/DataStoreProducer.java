@@ -53,6 +53,10 @@ public class DataStoreProducer {
     @Any
     Instance<RefreshLockStore> refreshLockStores;
 
+    @Inject
+    @Any
+    Instance<UpstreamTokenStore> upstreamTokenStores;
+
     @ConfigProperty(name = "server.token-store.implementation", defaultValue = "enterprise")
     String storeImplementation;
 
@@ -136,6 +140,18 @@ public class DataStoreProducer {
                 return refreshLockStores.select(new AnnotationLiteral<EnterpriseStoreQualifier>() {}).get();
             default:
                 throw new RuntimeException("Unknown refresh lock store implementation: " + storeImplementation);
+        }
+    }
+
+    @Produces
+    public UpstreamTokenStore selectUpstreamTokenStore() {
+        switch (storeImplementation) {
+            case "memory":
+                return upstreamTokenStores.select(new AnnotationLiteral<MemoryStoreQualifier>() {}).get();
+            case "enterprise":
+                return upstreamTokenStores.select(new AnnotationLiteral<EnterpriseStoreQualifier>() {}).get();
+            default:
+                throw new RuntimeException("Unknown upstream token store implementation: " + storeImplementation);
         }
     }
 }

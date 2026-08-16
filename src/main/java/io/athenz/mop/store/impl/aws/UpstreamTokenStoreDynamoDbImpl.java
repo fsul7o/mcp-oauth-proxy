@@ -17,6 +17,7 @@ package io.athenz.mop.store.impl.aws;
 
 import io.athenz.mop.config.UpstreamTokenConfig;
 import io.athenz.mop.model.UpstreamTokenRecord;
+import io.athenz.mop.store.EnterpriseStoreQualifier;
 import io.athenz.mop.store.UpstreamTokenStore;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -36,6 +37,7 @@ import software.amazon.awssdk.services.dynamodb.model.GetItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
 
 @ApplicationScoped
+@EnterpriseStoreQualifier
 public class UpstreamTokenStoreDynamoDbImpl implements UpstreamTokenStore {
 
     private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
