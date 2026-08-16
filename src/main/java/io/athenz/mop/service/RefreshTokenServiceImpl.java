@@ -19,6 +19,7 @@ import io.athenz.mop.model.RefreshTokenLockKey;
 import io.athenz.mop.model.RefreshTokenRecord;
 import io.athenz.mop.model.RefreshTokenRotateResult;
 import io.athenz.mop.model.RefreshTokenValidationResult;
+import io.athenz.mop.store.EnterpriseStoreQualifier;
 import io.athenz.mop.store.impl.aws.RefreshTableAttribute;
 import io.athenz.mop.store.impl.aws.RefreshTableConstants;
 import io.athenz.mop.store.impl.aws.RefreshTokenStoreDynamodbHelpers;
@@ -52,6 +53,7 @@ import software.amazon.awssdk.services.dynamodb.model.TransactWriteItem;
 import software.amazon.awssdk.services.dynamodb.model.TransactWriteItemsRequest;
 
 @ApplicationScoped
+@EnterpriseStoreQualifier
 public class RefreshTokenServiceImpl implements RefreshTokenService {
 
     private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());

@@ -15,6 +15,8 @@
  */
 package io.athenz.mop.store;
 
+import io.athenz.mop.service.RefreshLockStore;
+import io.athenz.mop.service.RefreshTokenService;
 import io.quarkus.runtime.Startup;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Any;
@@ -42,6 +44,14 @@ public class DataStoreProducer {
     @Inject
     @Any
     Instance<BearerIndexStore> bearerIndexStores;
+
+    @Inject
+    @Any
+    Instance<RefreshTokenService> refreshTokenServices;
+
+    @Inject
+    @Any
+    Instance<RefreshLockStore> refreshLockStores;
 
     @ConfigProperty(name = "server.token-store.implementation", defaultValue = "enterprise")
     String storeImplementation;
@@ -102,6 +112,30 @@ public class DataStoreProducer {
                 return bearerIndexStores.select(new AnnotationLiteral<EnterpriseStoreQualifier>() {}).get();
             default:
                 throw new RuntimeException("Unknown bearer index store implementation: " + bearerIndexImplementation);
+        }
+    }
+
+    @Produces
+    public RefreshTokenService selectRefreshTokenService() {
+        switch (storeImplementation) {
+            case "memory":
+                return refreshTokenServices.select(new AnnotationLiteral<MemoryStoreQualifier>() {}).get();
+            case "enterprise":
+                return refreshTokenServices.select(new AnnotationLiteral<EnterpriseStoreQualifier>() {}).get();
+            default:
+                throw new RuntimeException("Unknown refresh token service implementation: " + storeImplementation);
+        }
+    }
+
+    @Produces
+    public RefreshLockStore selectRefreshLockStore() {
+        switch (storeImplementation) {
+            case "memory":
+                return refreshLockStores.select(new AnnotationLiteral<MemoryStoreQualifier>() {}).get();
+            case "enterprise":
+                return refreshLockStores.select(new AnnotationLiteral<EnterpriseStoreQualifier>() {}).get();
+            default:
+                throw new RuntimeException("Unknown refresh lock store implementation: " + storeImplementation);
         }
     }
 }

@@ -16,6 +16,7 @@
 package io.athenz.mop.store.impl.aws;
 
 import io.athenz.mop.service.RefreshLockStore;
+import io.athenz.mop.store.EnterpriseStoreQualifier;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.lang.invoke.MethodHandles;
@@ -36,6 +37,7 @@ import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
  * No encryption; lock table is not in the encryption config.
  */
 @ApplicationScoped
+@EnterpriseStoreQualifier
 public class RefreshLockStoreDynamodbImpl implements RefreshLockStore {
 
     private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
